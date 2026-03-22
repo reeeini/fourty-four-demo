@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forty Four Burger & Bar — München</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0c0b09;
+  --surface: #131210;
+  --surface2: #1c1a16;
+  --cream: #ede0c4;
+  --cream-muted: #9a8e78;
+  --amber: #e07830;
+  --amber-light: #f09040;
+  --muted: #504840;
+  --border: #242018;
+  --white: #f8f0e0;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ─── NAV ─────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  padding: 1.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.4s, border-color 0.4s;
+  border-bottom: 1px solid transparent;
+}
+nav.scrolled {
+  background: rgba(12,11,9,0.95);
+  backdrop-filter: blur(16px);
+  border-bottom-color: var(--border);
+}
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  color: var(--amber);
+  letter-spacing: 0.05em;
+  text-decoration: none;
+}
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+.nav-links a {
+  color: var(--cream-muted);
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--cream); }
+
+/* ─── HERO ────────────────────────────────── */
+#hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(80px, 15vw, 210px);
+  line-height: 0.85;
+  color: var(--cream);
+  letter-spacing: 0.02em;
+}
+.hero-title span { color: var(--amber); }
+.hero-subtitle {
+  font-size: 0.8rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--cream-muted);
+  margin-top: 2.5rem;
+  margin-bottom: 3rem;
+  font-weight: 300;
+}
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2.2rem;
+  background: var(--amber);
+  color: var(--bg);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  width: fit-content;
+}
+.hero-cta:hover {
+  background: var(--amber-light);
+  transform: translateY(-2px);
+}
+.hero-bg-number {
+  position: absolute;
+  right: -3rem;
+  bottom: -6rem;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 38vw;
+  color: var(--surface);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+#hero > * { position: relative; z-index: 1; }
+
+/* ─── STATS BAR ───────────────────────────── */
+.stats-bar {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+}
+.stat {
+  flex: 1;
+  padding: 1.4rem 2rem;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.stat:last-child { border-right: none; }
+.stat-value {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  color: var(--amber);
+  letter-spacing: 0.04em;
+}
+.stat-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ─── BURGER BUILD ────────────────────────── */
+#build {
+  height: 600vh;
+  position: relative;
+}
+.build-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.build-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 4rem;
+  width: 100%;
+  max-width: 1100px;
+  padding: 0 3rem;
+}
+.build-section-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+.build-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(44px, 5.5vw, 76px);
+  line-height: 0.95;
+  color: var(--cream);
+  margin-bottom: 1.5rem;
+}
+.build-ingredient-name {
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: var(--cream);
+  min-height: 2rem;
+  font-style: italic;
+  transition: opacity 0.25s;
+  margin-bottom: 1.5rem;
+}
+.build-progress {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.progress-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.35s, transform 0.35s;
+  border: 1px solid var(--muted);
+}
+.progress-dot.active {
+  background: var(--amber);
+  border-color: var(--amber);
+  transform: scale(1.5);
+}
+.build-footnote {
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ─── THE BURGER (CSS ART) ────────────────── */
+.burger-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.burger-container {
+  position: relative;
+  width: 340px;
+  height: 360px;
+}
+.ingredient {
+  position: absolute;
+  left: 50%;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.65s cubic-bezier(0.34, 1.4, 0.64, 1);
+  will-change: transform, opacity;
+}
+.ingredient.visible { opacity: 1; }
+
+/* Bottom bun */
+.ing-bun-bottom {
+  width: 285px;
+  height: 52px;
+  bottom: 18px;
+  transform: translateX(-50%) translateY(25px);
+}
+.ing-bun-bottom.visible { transform: translateX(-50%) translateY(0); }
+.bun-bottom-shape {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #c8883a, #9e6420);
+  border-radius: 0 0 50% 50% / 0 0 40% 40%;
+  position: relative;
+}
+.bun-bottom-shape::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+}
+
+/* Patty */
+.ing-patty {
+  width: 268px;
+  height: 34px;
+  bottom: 64px;
+  transform: translateX(calc(-50% - 55px));
+}
+.ing-patty.visible { transform: translateX(-50%); }
+.patty-shape {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at 35% 35%, #4e3322, #261608);
+  border-radius: 10px;
+  box-shadow: 0 5px 14px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04);
+  position: relative;
+  overflow: hidden;
+}
+.patty-shape::before {
+  content: '';
+  position: absolute;
+  top: 28%; left: 5%; right: 5%;
+  height: 2px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 1px;
+}
+
+/* Cheese */
+.ing-cheese {
+  width: 278px;
+  height: 14px;
+  bottom: 93px;
+  transform: translateX(-50%) scaleX(0.2);
+  transform-origin: center;
+  transition-duration: 0.5s;
+}
+.ing-cheese.visible { transform: translateX(-50%) scaleX(1); }
+.cheese-shape {
+  width: 100%;
+  height: 100%;
+  background: #f0b830;
+  clip-path: polygon(0% 0%, 100% 0%, 97% 100%, 88% 70%, 76% 100%, 64% 70%, 52% 100%, 40% 70%, 28% 100%, 16% 70%, 4% 100%);
+}
+
+/* Sauce */
+.ing-sauce {
+  width: 180px;
+  height: 9px;
+  bottom: 103px;
+  transform: translateX(calc(-30% - 0px)) scaleX(0);
+  transform-origin: left center;
+}
+.ing-sauce.visible { transform: translateX(-30%) scaleX(1); }
+.sauce-shape {
+  width: 100%;
+  height: 100%;
+  background: #c43818;
+  border-radius: 4px;
+  opacity: 0.88;
+}
+
+/* Tomato */
+.ing-tomato {
+  width: 252px;
+  height: 17px;
+  bottom: 108px;
+  transform: translateX(calc(-50% + 65px));
+  transition-duration: 0.55s;
+}
+.ing-tomato.visible { transform: translateX(-50%); }
+.tomato-shape {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse, #d63c22 60%, #b82c14);
+  border-radius: 50%;
+  opacity: 0.9;
+}
+
+/* Lettuce */
+.ing-lettuce {
+  width: 298px;
+  height: 26px;
+  bottom: 119px;
+  transform: translateX(-50%) translateY(22px);
+  transition-duration: 0.6s;
+}
+.ing-lettuce.visible { transform: translateX(-50%) translateY(0); }
+.lettuce-shape {
+  width: 100%;
+  height: 100%;
+  background: #4a9830;
+  clip-path: polygon(
+    0% 55%, 3% 22%, 6% 55%, 9% 22%, 12% 55%, 15% 22%, 18% 55%,
+    21% 22%, 24% 55%, 27% 22%, 30% 55%, 33% 22%, 36% 55%, 39% 22%,
+    42% 55%, 45% 22%, 48% 55%, 51% 22%, 54% 55%, 57% 22%, 60% 55%,
+    63% 22%, 66% 55%, 69% 22%, 72% 55%, 75% 22%, 78% 55%,
+    81% 22%, 84% 55%, 87% 22%, 90% 55%, 93% 22%, 96% 55%,
+    100% 30%, 100% 100%, 0% 100%
+  );
+}
+
+/* Top bun */
+.ing-bun-top {
+  width: 262px;
+  height: 98px;
+  bottom: 136px;
+  transform: translateX(-50%) translateY(-75px);
+  transition-duration: 0.7s;
+}
+.ing-bun-top.visible { transform: translateX(-50%) translateY(0); }
+.bun-top-shape {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(160deg, #d8962e 0%, #b07222 60%, #956018 100%);
+  border-radius: 50% 50% 28% 28% / 82% 82% 28% 28%;
+  position: relative;
+  overflow: hidden;
+}
+.bun-top-shape::before {
+  content: '';
+  position: absolute;
+  top: 18%;
+  left: 12%;
+  width: 11px; height: 6px;
+  background: rgba(255,240,180,0.3);
+  border-radius: 50%;
+  box-shadow:
+    28px -3px 0 rgba(255,240,180,0.28),
+    58px 4px 0 rgba(255,240,180,0.3),
+    90px -4px 0 rgba(255,240,180,0.26),
+    122px 3px 0 rgba(255,240,180,0.28),
+    48px 22px 0 rgba(255,240,180,0.22),
+    82px 18px 0 rgba(255,240,180,0.26);
+}
+.bun-top-shape::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 15%; right: 15%;
+  height: 30%;
+  background: rgba(255,255,255,0.07);
+  border-radius: 50%;
+}
+
+/* ─── MENU ────────────────────────────────── */
+#menu {
+  padding: 8rem 3rem;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+.section-eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 0.8rem;
+  font-weight: 500;
+}
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(48px, 6vw, 82px);
+  color: var(--cream);
+  margin-bottom: 4rem;
+  line-height: 0.95;
+}
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--border);
+}
+.menu-item {
+  padding: 2.5rem 2rem;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  transition: background 0.3s;
+}
+.menu-item:hover { background: var(--surface2); }
+.menu-item:nth-child(3n) { border-right: none; }
+.menu-item:nth-last-child(-n+3) { border-bottom: none; }
+.menu-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.82rem;
+  color: var(--amber);
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+.menu-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.75rem;
+  color: var(--cream);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.75rem;
+  line-height: 1;
+}
+.menu-desc {
+  font-size: 0.8rem;
+  color: var(--cream-muted);
+  line-height: 1.65;
+  font-weight: 300;
+}
+.menu-tag {
+  display: inline-block;
+  margin-top: 1.2rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+.menu-tag.featured {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+.menu-tag.vegan {
+  border-color: #4a9830;
+  color: #4a9830;
+}
+
+/* ─── ABOUT ───────────────────────────────── */
+#about {
+  padding: 9rem 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 7rem;
+  align-items: center;
+}
+.about-motto {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 6.5vw, 84px);
+  line-height: 0.95;
+  color: var(--cream);
+}
+.about-motto em {
+  color: var(--amber);
+  font-style: normal;
+}
+.about-body p {
+  font-size: 0.9rem;
+  line-height: 1.85;
+  color: var(--cream-muted);
+  font-weight: 300;
+  margin-bottom: 1.2rem;
+}
+.about-body p:last-of-type { margin-bottom: 0; }
+.about-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+.about-divider::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: var(--amber);
+}
+.about-divider-text {
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ─── FOOTER ──────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  padding: 5rem 3rem 3rem;
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  gap: 3rem;
+}
+.footer-brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 4rem;
+  color: var(--amber);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+}
+.footer-tagline {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.footer-col-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 1.2rem;
+  font-weight: 500;
+  opacity: 0.8;
+}
+.footer-col-content {
+  font-size: 0.82rem;
+  color: var(--cream-muted);
+  line-height: 1.85;
+  font-weight: 300;
+}
+.footer-col-content a {
+  color: var(--cream-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-col-content a:hover { color: var(--cream); }
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  padding: 1.4rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-copy {
+  font-size: 0.68rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+
+/* ─── SCROLLBAR ───────────────────────────── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); }
+
+/* ─── DEMO BANNER ─────────────────────────── */
+.demo-banner {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 999;
+  background: var(--amber);
+  color: var(--bg);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.1rem;
+  pointer-events: none;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#">44</a>
+  <ul class="nav-links">
+    <li><a href="#build">The Burger</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Find Us</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-number">44</div>
+  <p class="hero-eyebrow">Blumenstraße 25 · München · Est. 2023</p>
+  <h1 class="hero-title">FORTY<br><span>FOUR</span></h1>
+  <p class="hero-subtitle">Burger & Bar &nbsp;·&nbsp; Classic But Different</p>
+  <a href="tel:+4989710464888" class="hero-cta">
+    Reserve a Table
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <span class="stat-value">4.8</span>
+    <span class="stat-label">Google Rating</span>
+  </div>
+  <div class="stat">
+    <span class="stat-value">993+</span>
+    <span class="stat-label">Reviews</span>
+  </div>
+  <div class="stat">
+    <span class="stat-value">'23</span>
+    <span class="stat-label">Since</span>
+  </div>
+  <div class="stat">
+    <span class="stat-value">Bio</span>
+    <span class="stat-label">Regional Ingredients</span>
+  </div>
+</div>
+
+<!-- BURGER BUILD -->
+<section id="build">
+  <div class="build-sticky">
+    <div class="build-layout">
+
+      <div>
+        <p class="build-section-label">↓ Scroll to build</p>
+        <h2 class="build-title">THE PERFECT<br>44 BURGER</h2>
+        <p class="build-ingredient-name" id="ingredient-label">Start scrolling...</p>
+        <div class="build-progress">
+          <div class="progress-dot" id="dot-0"></div>
+          <div class="progress-dot" id="dot-1"></div>
+          <div class="progress-dot" id="dot-2"></div>
+          <div class="progress-dot" id="dot-3"></div>
+          <div class="progress-dot" id="dot-4"></div>
+          <div class="progress-dot" id="dot-5"></div>
+          <div class="progress-dot" id="dot-6"></div>
+        </div>
+        <p class="build-footnote">Regional · Überwiegend Bio-Zertifiziert</p>
+      </div>
+
+      <div class="burger-wrap">
+        <div class="burger-container">
+
+          <!-- Top Bun (drops from above) -->
+          <div class="ingredient ing-bun-top" data-threshold="0.82" data-index="6" data-name="The crown. Perfection.">
+            <div class="bun-top-shape"></div>
+          </div>
+
+          <!-- Lettuce (bounces up) -->
+          <div class="ingredient ing-lettuce" data-threshold="0.65" data-index="5" data-name="Crisp fresh lettuce...">
+            <div class="lettuce-shape"></div>
+          </div>
+
+          <!-- Tomato (slides from right) -->
+          <div class="ingredient ing-tomato" data-threshold="0.50" data-index="4" data-name="Ripe tomato...">
+            <div class="tomato-shape"></div>
+          </div>
+
+          <!-- Sauce (spreads from left) -->
+          <div class="ingredient ing-sauce" data-threshold="0.38" data-index="3" data-name="House sauce...">
+            <div class="sauce-shape"></div>
+          </div>
+
+          <!-- Cheese (stretches out) -->
+          <div class="ingredient ing-cheese" data-threshold="0.26" data-index="2" data-name="Melted cheese...">
+            <div class="cheese-shape"></div>
+          </div>
+
+          <!-- Patty (slides from left) -->
+          <div class="ingredient ing-patty" data-threshold="0.14" data-index="1" data-name="Bio beef patty, smashed...">
+            <div class="patty-shape"></div>
+          </div>
+
+          <!-- Bottom Bun (always visible) -->
+          <div class="ingredient ing-bun-bottom visible" data-threshold="0.0" data-index="0" data-name="Toasted brioche bun...">
+            <div class="bun-bottom-shape"></div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <p class="section-eyebrow">What we serve</p>
+  <h2 class="section-title">THE LINE-UP</h2>
+  <div class="menu-grid">
+
+    <div class="menu-item">
+      <p class="menu-num">01</p>
+      <p class="menu-name">The 44 Smash</p>
+      <p class="menu-desc">Our signature. Bio beef, double-smashed on the flat iron, American cheese, 44 sauce, pickles, white onion.</p>
+      <span class="menu-tag featured">Signature</span>
+    </div>
+
+    <div class="menu-item">
+      <p class="menu-num">02</p>
+      <p class="menu-name">Paris Burger</p>
+      <p class="menu-desc">Bavarian camembert, Parma ham, caramelised onions, truffle mayo. Munich meets Paris on a brioche bun.</p>
+      <span class="menu-tag">Fan Favourite</span>
+    </div>
+
+    <div class="menu-item">
+      <p class="menu-num">03</p>
+      <p class="menu-name">The 44 Giant</p>
+      <p class="menu-desc">Double patty. Double cheese. Double everything. For the brave. You were warned.</p>
+      <span class="menu-tag featured">Challenge</span>
+    </div>
+
+    <div class="menu-item">
+      <p class="menu-num">04</p>
+      <p class="menu-name">Vegan Wonder</p>
+      <p class="menu-desc">Crispy plant-based patty, vegan cheese, avocado cream, sriracha mayo. Proof that vegan can be outstanding.</p>
+      <span class="menu-tag vegan">Vegan</span>
+    </div>
+
+    <div class="menu-item">
+      <p class="menu-num">05</p>
+      <p class="menu-name">Chili Cheese Fries</p>
+      <p class="menu-desc">Hand-cut fries, house chili, nacho cheese, pickled jalapeños. The only acceptable side dish.</p>
+      <span class="menu-tag">Side</span>
+    </div>
+
+    <div class="menu-item">
+      <p class="menu-num">06</p>
+      <p class="menu-name">Lava Cake</p>
+      <p class="menu-desc">Warm dark chocolate cake, molten centre, vanilla ice cream. The perfect ending to a perfect meal.</p>
+      <span class="menu-tag">Dessert</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div>
+    <h2 class="about-motto">CLASSIC<br>BUT<br><em>DIFFERENT.</em></h2>
+  </div>
+  <div class="about-body">
+    <p>Forty Four was born from a simple obsession: making Munich's best burger. Not the most complicated. Not the trendiest. The best.</p>
+    <p>Every patty is sourced from regional, predominantly organic farms. Every bun arrives fresh daily. Every sauce is made in-house. There are no shortcuts here.</p>
+    <p>We opened our doors in October 2023 at Blumenstraße 25 in the heart of Munich's Altstadt. Nearly 1,000 reviews and a 4.8 rating later, the city seems to agree.</p>
+    <div class="about-divider">
+      <span class="about-divider-text">Bio-Zertifiziert · Regional · Altstadt München</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div>
+    <p class="footer-brand">44</p>
+    <p class="footer-tagline">Burger & Bar · München</p>
+  </div>
+  <div>
+    <p class="footer-col-label">Find Us</p>
+    <p class="footer-col-content">
+      Blumenstraße 25<br>
+      80331 München<br>
+      Altstadt-Lehel<br><br>
+      <a href="tel:+4989710464888">+49 89 71046488</a><br>
+      <a href="mailto:burger@fortyfour.me">burger@fortyfour.me</a>
+    </p>
+  </div>
+  <div>
+    <p class="footer-col-label">Hours</p>
+    <p class="footer-col-content">
+      Mon — Closed<br>
+      Tue – Thu<br>
+      11:30–14:00, 17:00–23:00<br>
+      Fri 11:30–14:00, 17:00–01:00<br>
+      Sat — 17:00–01:00<br>
+      Sun — 17:00–23:00
+    </p>
+  </div>
+  <div>
+    <p class="footer-col-label">Follow</p>
+    <p class="footer-col-content">
+      <a href="https://www.instagram.com/fortyfour_burgerbar/" target="_blank">@fortyfour_burgerbar</a><br>
+      Instagram · TikTok<br><br>
+      <a href="https://www.fortyfour.me" target="_blank">fortyfour.me</a><br><br>
+      Reservations by phone<br>or walk-in welcome
+    </p>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span class="footer-copy">© 2025 Forty Four Burger & Bar GmbH</span>
+  <span class="footer-copy">Robin Kienle · München</span>
+</div>
+
+<!-- DEMO LABEL -->
+<div class="demo-banner">Demo — Replace with Kling imagery</div>
+
+<script>
+// Nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+// Burger build animation
+const buildSection = document.getElementById('build');
+const allIngredients = document.querySelectorAll('.ingredient');
+const labelEl = document.getElementById('ingredient-label');
+const allDots = document.querySelectorAll('.progress-dot');
+
+const steps = [
+  { threshold: 0.00, name: 'Toasted brioche bun...' },
+  { threshold: 0.14, name: 'Bio beef patty, smashed...' },
+  { threshold: 0.26, name: 'Melted cheese...' },
+  { threshold: 0.38, name: 'House sauce...' },
+  { threshold: 0.50, name: 'Ripe tomato...' },
+  { threshold: 0.65, name: 'Crisp fresh lettuce...' },
+  { threshold: 0.82, name: 'The crown. Perfection.' },
+];
+
+function onScroll() {
+  const rect = buildSection.getBoundingClientRect();
+  const scrollable = buildSection.offsetHeight - window.innerHeight;
+  const progress = Math.max(0, Math.min(1, -rect.top / scrollable));
+
+  let lastActive = -1;
+
+  allIngredients.forEach(ing => {
+    const t = parseFloat(ing.dataset.threshold);
+    const on = progress >= t;
+    ing.classList.toggle('visible', on);
+    if (on) lastActive = Math.max(lastActive, parseInt(ing.dataset.index));
+  });
+
+  allDots.forEach((dot, i) => {
+    dot.classList.toggle('active', i <= lastActive);
+  });
+
+  if (progress < 0.04) {
+    labelEl.textContent = 'Start scrolling...';
+  } else if (lastActive >= 0 && lastActive < steps.length) {
+    labelEl.textContent = steps[lastActive].name;
+  }
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+</script>
+
+</body>
+</html>
